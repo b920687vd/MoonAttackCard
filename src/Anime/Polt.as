@@ -51,6 +51,11 @@
 			return distense;
 		}
 		
+		public function move(line:int, area:int) 
+		{
+			this.line = line;
+			this.area = area;
+		}
 	}
 
 }

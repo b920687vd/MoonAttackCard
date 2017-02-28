@@ -120,14 +120,18 @@ package
 			ActionMgr.Do();
 		}
 		
-		/**打出牌*/
+		/**
+		 * 打出牌
+		 */
 		static public function Play(source:CardBase):void
 		{
 			PushAction(source.getAction("play"));
 			Do();
 		}
 		
-		/**造成伤害*/
+		/**
+		 * 造成伤害
+		 */
 		static public function Damage(source:CardBase,aim:Object,point:Number,type:String):void
 		{
 			var sourcechar:CardBase = source;
@@ -152,7 +156,9 @@ package
 			ActionMgr.Do();
 		}
 		
-		/**执行当前操作*/
+		/**
+		 * 执行当前队列里的操作
+		 */
 		static public function Do():void
 		{
 			if(One._action_list&&One._action_list[0])
