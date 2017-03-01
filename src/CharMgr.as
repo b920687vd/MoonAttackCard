@@ -24,6 +24,9 @@ package
 		private var _party_list:Array;
 		private var _enemy:CharMgr;
 		
+		/**
+		 * 敌对的队伍
+		 */
 		public function set enemy(e:CharMgr):void
 		{
 			this._enemy = e;
@@ -31,6 +34,9 @@ package
 				e.enemy = this;
 		}
 		
+		/**
+		 * 敌对的队伍
+		 */
 		public function get enemy():CharMgr
 		{
 			return this._enemy;
@@ -41,6 +47,11 @@ package
 			_party_list = new Array();
 		}
 		
+		/**
+		 * 获得指定角色的队伍
+		 * @param	one		要获取队伍的角色
+		 * @return			指定角色的队伍
+		 */
 		static public function getGroup(one:Character):CharMgr
 		{
 			for each(var group:CharMgr in CharMgr.Group_List)
@@ -51,6 +62,11 @@ package
 			return null;
 		}
 		
+		/**
+		 * 是否含有指定角色
+		 * @param	one		要查询是否在本队伍中的角色
+		 * @return			布尔值，表示是否在本队列中
+		 */
 		public function hasItem(one:Character):Boolean
 		{
 			if (this._party_list.indexOf(one) == -1)
@@ -59,6 +75,11 @@ package
 				return true;
 		}
 		
+		/**
+		 * 按条件获得随机角色
+		 * @param	list	指定条件。可以为角色池或描述字符串
+		 * @return			指定条件的随机角色
+		 */
 		public function getRandom(list:Object):Character
 		{
 			var returnchar:Character;

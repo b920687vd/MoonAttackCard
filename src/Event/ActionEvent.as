@@ -2,9 +2,9 @@ package Event
 {
 	import flash.events.Event;
 	
-	public class GameEvent extends Event
+	public class ActionEvent extends Event
 	{
-		public function GameEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function ActionEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 		}

@@ -9,10 +9,108 @@ package
 		
 		public function GameMgr() 
 		{
+			if (!GameMgr.One)
+				GameMgr.One = this;
+		}
+		
+		static public var One:PlayerMgr;
+		
+		private var _player_list:Array;
+		
+		/**
+		 * 开始新游戏
+		 */
+		public function NewGame():void
+		{
+			var card1:Character = new Character(
+				{
+					discribe:"这是一张新卡",
+					name:"怪物A",
+					action:[
+						{point:"attack_after",list:[{name:"aoe_fire",param:["enemy",1]}]}
+					]
+				}
+			)
+			var card2:Character = new Character(
+				{
+					discribe:"这是一张新卡",
+					name:"怪物B",
+					action:[
+						{point:"play",list:[{name:"aoe_fire",param:["enemy",2]}]}
+					]
+				}
+			)
+			var party1:CharMgr = new CharMgr();
+			var party2:CharMgr = new CharMgr();
+			party1.enemy = party2;
+			party1.addOneParty(card2);
+			party2.addOneEnemy(card1);
+			ActionMgr.Attack(card1, card2);
+		}
+		
+		/**
+		 * 初始化游戏
+		 */
+		private function _InitGame():void
+		{
+			//加载双方卡组
+			_LoadDeck();
+			//决定先攻
+			_FirstCache();
+			//先攻方抽取起始卡牌
+			//后攻方抽取起始卡牌
+			_InitHand();
+			//先攻方布置阵地
+			//后攻方布置阵地
+			_LoadParty();
+			//进入先攻方回合
+			_EnterTurn();
+		}
+		
+		/**
+		 * 加载双方卡组
+		 */
+		private function _LoadDeck():void
+		{
 			
 		}
 		
-		public function NewGame():void
+		/**
+		 * 决定先攻权
+		 */
+		private function _FirstCache():void
+		{
+			
+		}
+		
+		/**
+		 * 抽取起始手牌
+		 */
+		private function _InitHand():void
+		{
+			
+		}
+		
+		/**
+		 * 加载双方起始阵地
+		 */
+		private function _LoadParty():void
+		{
+			
+		}
+		
+		/**
+		 * 进入指定玩家回合
+		 */
+		private function _EnterTurn(index:int):void
+		{
+			
+		}
+		
+		/**
+		 * 结束当前对局
+		 */
+		public function EndGame():void
 		{
 			
 		}

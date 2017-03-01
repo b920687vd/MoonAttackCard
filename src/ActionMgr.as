@@ -5,7 +5,7 @@ package
 	import Card.CardBase;
 	import Card.Character;
 	
-	import Event.GameEvent;
+	import Event.ActionEvent;
 	
 	public class ActionMgr
 	{
@@ -61,7 +61,9 @@ package
 			One._context[key] = value;
 		}
 		
-		/**插入事件（在队列前端）*/
+		/**
+		 * 插入事件（在队列前端）
+		 */
 		static public function InsertAction(action:Object):void
 		{
 			if(action is Function)
@@ -157,6 +159,16 @@ package
 		}
 		
 		/**
+		 * 抽牌
+		 * @param	num		抽取的数量
+		 * @param	player	抽取卡牌的玩家
+		 */
+		static public function Draw(num:int,player:PlayerMgr):void
+		{
+			
+		}
+		
+		/**
 		 * 执行当前队列里的操作
 		 */
 		static public function Do():void
@@ -165,18 +177,18 @@ package
 				One._curr_aciton = One._action_list.splice(0,1)[0];
 			else
 			{
-				One._event_cube.dispatchEvent(new GameEvent(GameEvent.NO_ACTION_LEFT));
+				One._event_cube.dispatchEvent(new ActionEvent(ActionEvent.NO_ACTION_LEFT));
 				return;
 			}
 			One._curr_aciton();
 			One._curr_aciton = null;
-			One._event_cube.addEventListener(GameEvent.ACION_OVER,doNext);
+			One._event_cube.addEventListener(ActionEvent.ACION_OVER,doNext);
 		}
 		
 		/**上一项操作完毕，继续下一项*/
-		static public function doNext(e:GameEvent):void
+		static public function doNext(e:ActionEvent):void
 		{
-			One._event_cube.removeEventListener(GameEvent.ACION_OVER,doNext);
+			One._event_cube.removeEventListener(ActionEvent.ACION_OVER,doNext);
 			Do();
 		}
 	}
