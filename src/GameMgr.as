@@ -22,6 +22,17 @@ package
 		 */
 		public function NewGame():void
 		{
+			_InitGame();
+			//进入先攻方回合
+			_EnterTurn();
+		}
+		
+		/**
+		 * 初始化游戏
+		 */
+		private function _InitGame():void
+		{
+			_player_list = new Array();
 			var card1:Character = new Character(
 				{
 					discribe:"这是一张新卡",
@@ -45,14 +56,6 @@ package
 			party1.enemy = party2;
 			party1.addOneParty(card2);
 			party2.addOneEnemy(card1);
-			ActionMgr.Attack(card1, card2);
-		}
-		
-		/**
-		 * 初始化游戏
-		 */
-		private function _InitGame():void
-		{
 			//加载双方卡组
 			_LoadDeck();
 			//决定先攻
@@ -63,8 +66,6 @@ package
 			//先攻方布置阵地
 			//后攻方布置阵地
 			_LoadParty();
-			//进入先攻方回合
-			_EnterTurn();
 		}
 		
 		/**
@@ -102,7 +103,7 @@ package
 		/**
 		 * 进入指定玩家回合
 		 */
-		private function _EnterTurn(index:int):void
+		private function _EnterTurn(index:int = null):void
 		{
 			
 		}
@@ -115,6 +116,9 @@ package
 			
 		}
 		
+		/**
+		 * 更新当前状态
+		 */
 		private function _Update():void
 		{
 			_CheckDeadUnit();
