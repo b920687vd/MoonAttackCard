@@ -28,16 +28,10 @@ package
 				case "aoe_fire":
 					action = function():void
 					{
-						var target:CardBase;
-						if (point == "damage_after")
-							target = ActionMgr.Context["damage_source"];
-						else if (point == "damage_hurted")
-							target = ActionMgr.Context["damage_aim"];
-						else if (point == "attack_after")
-							target = ActionMgr.Context["attack_source"];
+						var target:CardBase = ActionMgr.ActionTarget(point);
 						var paramater:Array = param as Array;
 						Console.print(target.name+"触发效果，对" + param[0] + "全体造成" + param[1] + "点火焰伤害");
-						ActionMgr.Damage(target,"random_enemy",1,"fire")
+						ActionMgr.Damage(target, "random_enemy", 1, "fire");
 					}
 				default:
 					break;

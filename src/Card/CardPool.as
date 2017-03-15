@@ -35,10 +35,21 @@ package Card
 		public function random():CardBase
 		{
 			if (this._pool.length == 0)
-				return;
+				return null;
 			
 			var i:int = Math.floor(Math.random() * (this._pool.length as Number));
 			return this._pool[i];
+		}
+		
+		/**
+		 * 取出卡池最上方的卡片
+		 */
+		public function pop():CardBase
+		{
+			if (this._pool.length == 0)
+				return null;
+			
+			return this._pool.pop();
 		}
 		
 	}

@@ -20,9 +20,11 @@ package
 			this._party = new CharMgr();
 		}
 		
-		private var _deck:CardPool;
-		private var _hand_card:CardPool;
-		private var _party:CharMgr;
+		public var deck:CardPool;
+		public var hand_card:CardPool;
+		public var party:CharMgr;
+		public var grave:CardPool;
+		
 		private var _enemy:PlayerMgr;
 		
 		public function get enemy():void

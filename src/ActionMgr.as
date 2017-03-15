@@ -46,6 +46,27 @@ package
 			}
 		}
 		
+		static public function ActionTarget(point:String):CardBase
+		{
+			var target:CardBase;
+			switch (point)
+			{
+				case "damage_after":
+					target = ActionMgr.Context["damage_source"];
+					break;
+				case "damage_hurted":
+					target = ActionMgr.Context["damage_aim"];
+					break;
+				case "attack_after":
+					target = ActionMgr.Context["attack_source"];
+					break;
+				default:
+					target = null;
+					break;
+			}
+			return target;
+		}
+		
 		static public function get Context():Object
 		{
 			return One._context;
@@ -94,7 +115,9 @@ package
 			return hurtchar;
 		}
 		
-		/**攻击动作*/
+		/**
+		 * 攻击动作
+		 */
 		static public function Attack(source:Character,aim:Object):void
 		{
 			var sourcechar:Character = source;
@@ -156,6 +179,38 @@ package
 			PushAction(Context["damage_source"].getAction("damage_after"));
 			PushAction(Context["damage_aim"].getAction("damage_hurted"));
 			ActionMgr.Do();
+			GameMgr.One.Update();
+		}
+		
+		/**
+		 * 消灭指定角色
+		 * @param	source	效果来源
+		 * @param	aim		要指定消灭的角色
+		 */
+		static public function Kill(source:CardBase, aim:Object):void
+		{
+			var sourceCard:CardBase = source;
+			if(source!=null)
+				setContext("killer", source);
+				
+			var hurtchar:Character = ActionMgr.get_aim(sourcechar,aim);
+			
+			PushAction(hurtchar.getAction("death"));
+			ActionMgr.Do();
+			GameMgr.One.Update();
+		}
+		
+		/**
+		 * 指定角色死亡
+		 * @param	aim		要指定死亡的角色
+		 */
+		static public function Death(aim:Object):void
+		{
+			var hurtchar:Character = ActionMgr.get_aim(sourcechar,aim);
+			
+			PushAction(hurtchar.getAction("death"));
+			ActionMgr.Do();
+			GameMgr.One.Update();
 		}
 		
 		/**
@@ -165,7 +220,10 @@ package
 		 */
 		static public function Draw(num:int,player:PlayerMgr):void
 		{
-			
+			for (var i = 0; i < num; i++ )
+			{
+				player.hand_card.add(player.deck.pop());
+			}
 		}
 		
 		/**

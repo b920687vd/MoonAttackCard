@@ -1,5 +1,9 @@
 package 
 {
+	import Anime.CardPolt;
+	import Card.Character;
+	import Event.PlayerEvent;
+	import flash.events.EventDispatcher;
 	/**
 	 * 游戏管理器
 	 * @author OMaster
@@ -13,9 +17,13 @@ package
 				GameMgr.One = this;
 		}
 		
-		static public var One:PlayerMgr;
+		static public var One:GameMgr;
+		
+		public var event_cube:EventDispatcher;
 		
 		private var _player_list:Array;
+		
+		private var _model_card_polt:CardPolt;
 		
 		/**
 		 * 开始新游戏
@@ -33,29 +41,11 @@ package
 		private function _InitGame():void
 		{
 			_player_list = new Array();
-			var card1:Character = new Character(
-				{
-					discribe:"这是一张新卡",
-					name:"怪物A",
-					action:[
-						{point:"attack_after",list:[{name:"aoe_fire",param:["enemy",1]}]}
-					]
-				}
-			)
-			var card2:Character = new Character(
-				{
-					discribe:"这是一张新卡",
-					name:"怪物B",
-					action:[
-						{point:"play",list:[{name:"aoe_fire",param:["enemy",2]}]}
-					]
-				}
-			)
-			var party1:CharMgr = new CharMgr();
-			var party2:CharMgr = new CharMgr();
-			party1.enemy = party2;
-			party1.addOneParty(card2);
-			party2.addOneEnemy(card1);
+			var _player_1:PlayerMgr = new PlayerMgr();
+			var _player_2:PlayerMgr = new PlayerMgr();
+			_player_1.enemy = _player_2;
+			_player_list.push(_player_1, _player_2);
+			
 			//加载双方卡组
 			_LoadDeck();
 			//决定先攻
@@ -119,7 +109,7 @@ package
 		/**
 		 * 更新当前状态
 		 */
-		private function _Update():void
+		public function Update():void
 		{
 			_CheckDeadUnit();
 		}
@@ -130,7 +120,11 @@ package
 		 */
 		private function _CheckDeadUnit():void
 		{
-			
+			for each(var char:Character in _player_list[0].party.list)
+			{
+				if (char.hp <= 0)
+					ActionMgr.Death(char);
+			}
 		}
 		
 		/**
@@ -147,7 +141,8 @@ package
 		 */
 		private function _ControlChooseAim():void
 		{
-			
+			this.event_cube.addEventListener(PlayerEvent.CHOOSE_AIM_OVER, _ChooseAimEnd);
+			_model_card_polt;
 		}
 		
 		/**
@@ -155,9 +150,20 @@ package
 		 */
 		private function _ControlChooseHand():void
 		{
-			
+			this.event_cube.addEventListener(PlayerEvent.CHOOSE_HAND_OVER, _ChooseHandEnd);
 		}
 		
+		private function _ChooseAimEnd(e:PlayerEvent):void
+		{
+			this.event_cube.removeEventListener(PlayerEvent.CHOOSE_AIM_OVER, _ChooseAimEnd);
+			ActionMgr.setContext("effect_aim", e.param.aim);
+		}
+		
+		private function _ChooseHandEnd(e:PlayerEvent):void
+		{
+			this.event_cube.removeEventListener(PlayerEvent.CHOOSE_HAND_OVER, _ChooseHandEnd);
+			ActionMgr.setContext("hand_cost", e.param.hand);
+		}
 	}
 
 }

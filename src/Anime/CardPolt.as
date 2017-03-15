@@ -1,6 +1,9 @@
 ﻿package Anime
 {
 	
+	import Card.CardBase;
+	import Card.Character;
+	import Event.PlayerEvent;
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -21,16 +24,23 @@
 		{
 			Card_List = new Array();
 			polt_dict = new Dictionary();
+			char_dict = new Dictionary();
 			curr_area = 0;
 			curr_base_line = 0;
+			ctrl_able = false;
 		}
 		
 		public var Card_List:Array;
 		
+		public var Hand_List:Vector.<CardBase>;
+		
 		public var curr_ctrl_Card:int;
 		public var curr_base_line:Number;
 		
+		public var ctrl_able:Boolean;
+		
 		public var polt_dict:Dictionary;
+		public var char_dict:Dictionary;
 		
 		static public const Scale_Area_1:Number = 403.3;
 		static public const Scale_Area_2:Number = 332.3;
@@ -47,17 +57,41 @@
 			Card_List[index - 1];
 		}
 		
-		public function beginControl():void
+		public function beginMoveControl():void
 		{
 			for each(var i:Sprite in Card_List)
 			{
-				i.addEventListener(MouseEvent.MOUSE_DOWN, begin_check_area);
+				i.addEventListener(MouseEvent.MOUSE_DOWN, _BeginCheckArea);
 			}
 		}
 		
+		public function StopMoveControl():void
+		{
+			for each(var i:Sprite in Card_List)
+			{
+				try{
+					i.removeEventListener(MouseEvent.MOUSE_DOWN, _BeginCheckArea);
+				}
+				catch (e:Error)
+				{
+					//
+				}
+			}
+		}
+		
+		/**
+		 * 为卡牌模型绑定槽位对象
+		 * @param	c
+		 * @param	p
+		 */
 		public function linkPolt(c:Sprite, p:Polt)
 		{
 			polt_dict[c] = p;
+		}
+		
+		public function linkData(c:Sprite, d:Character)
+		{
+			char_dict[c] = d;
 		}
 		
 		public function getCardDis(c1:Sprite, c2:Sprite):int
@@ -66,14 +100,15 @@
 				return -1;
 			if (!polt_dict[c2])
 				return -1;
+			
 			var p1:Polt = polt_dict[c1];
-			var p2:Polt = polt_dict[c2]
+			var p2:Polt = polt_dict[c2];
 			return p1.dis(p2);
 		}
 		
 		public var curr_area:int;
 		
-		function begin_check_area(e:MouseEvent):void
+		private function _BeginCheckArea(e:MouseEvent):void
 		{
 			curr_ctrl_Card = Card_List.indexOf(e.currentTarget);
 			if (curr_ctrl_Card == -1)
@@ -84,13 +119,13 @@
 			
 			curr_base_line = Card_List[curr_ctrl_Card].x;
 			
-			this.removeEventListener(MouseEvent.MOUSE_DOWN, begin_check_area);
+			this.removeEventListener(MouseEvent.MOUSE_DOWN, _BeginCheckArea);
 			Card_List[curr_ctrl_Card].startDrag();
-			this.addEventListener(Event.ENTER_FRAME, check_area);
-			Card_List[curr_ctrl_Card].addEventListener(MouseEvent.MOUSE_UP, end_check_area);
+			this.addEventListener(Event.ENTER_FRAME, _CheckArea);
+			Card_List[curr_ctrl_Card].addEventListener(MouseEvent.MOUSE_UP, _EndCheckArea);
 		}
 		
-		function check_area(e:Event):void
+		private function _CheckArea(e:Event):void
 		{
 			if (Card_List[curr_ctrl_Card].y > (Scale_Area_1 - 20) )
 			{
@@ -124,12 +159,12 @@
 			}
 		}
 		
-		function end_check_area(e:MouseEvent):void
+		private function _EndCheckArea(e:MouseEvent):void
 		{
-			Card_List[curr_ctrl_Card].addEventListener(MouseEvent.MOUSE_DOWN, begin_check_area);
+			Card_List[curr_ctrl_Card].addEventListener(MouseEvent.MOUSE_DOWN, _BeginCheckArea);
 			Card_List[curr_ctrl_Card].stopDrag();
-			this.removeEventListener(Event.ENTER_FRAME, check_area);
-			Card_List[curr_ctrl_Card].removeEventListener(MouseEvent.MOUSE_UP, end_check_area);
+			this.removeEventListener(Event.ENTER_FRAME, _CheckArea);
+			Card_List[curr_ctrl_Card].removeEventListener(MouseEvent.MOUSE_UP, _EndCheckArea);
 			shape_0.gotoAndStop(1);
 			shape_1.gotoAndStop(1);
 			shape_2.gotoAndStop(1);
@@ -141,6 +176,103 @@
 				Card_List[curr_ctrl_Card].y = Scale_Area_3;
 			
 			Card_List[curr_ctrl_Card].x = curr_base_line;
+		}
+		
+		/**
+		 * 开始回合控制
+		 */
+		public function StartControl():void
+		{
+			beginMoveControl();
+		}
+		
+		/**
+		 * 停止回合控制
+		 */
+		public function StopControl():void
+		{
+			StopMoveControl();
+		}
+		
+		/**
+		 * 处理点击卡片显示细节的效果
+		 * @param	e
+		 */
+		private function _ClickCardShowDetail(e:MouseEvent):void
+		{
+			ShowCardDetail(char_dict(e.target));
+		}
+		
+		/**
+		 * 处理点击手牌显示细节的效果
+		 * @param	e
+		 */
+		private function _ClickHandShowDetail(e:MouseEvent):void
+		{
+			
+		}
+		
+		/**
+		 * 显示卡片细节
+		 * @param	c
+		 */
+		public function ShowCardDetail(c:CardBase):void
+		{
+			
+		}
+		
+		/**
+		 * 开始选择对象
+		 */
+		public function StartChooseAim():void
+		{
+			for each(var card:Sprite in this.Card_List)
+			{
+				card.addEventListener(MouseEvent.CLICK, _ChooseAim);
+			}
+		}
+		
+		/**
+		 * 停止选择对象
+		 */
+		public function StopChooseAim():void
+		{
+			for each(var card:Sprite in this.Card_List)
+			{
+				try{
+					card.removeEventListener(MouseEvent.CLICK, _ChooseAim);
+				}
+				catch (e:Error)
+				{
+					//
+				}
+			}
+		}
+		
+		/**
+		 * 处理选中对象的结果
+		 * @param	e
+		 */
+		private function _ChooseAim(e:MouseEvent):void
+		{
+			var event_choose_aim:PlayerEvent = new PlayerEvent(PlayerEvent.CHOOSE_AIM_OVER, char_dict[e.target]);
+			GameMgr.One.event_cube.dispatchEvent(event_choose_aim);
+		}
+		
+		/**
+		 * 开始选择手牌
+		 */
+		public function StartChooseHand():void
+		{
+			
+		}
+		
+		/**
+		 * 停止选择手牌
+		 */
+		public function StopChooseHand():void
+		{
+			
 		}
 	}
 

@@ -75,6 +75,11 @@ package
 				return true;
 		}
 		
+		public function get list():Array
+		{
+			return this._party_list;
+		}
+		
 		/**
 		 * 按条件获得随机角色
 		 * @param	list	指定条件。可以为角色池或描述字符串

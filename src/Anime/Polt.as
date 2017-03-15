@@ -1,7 +1,8 @@
 ﻿package Anime
 {
 	/**
-	 * ...
+	 * 槽位模型
+	 * 用于计算场上卡牌位置的模型
 	 * @author OMaster
 	 */
 	public class Polt 
