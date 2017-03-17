@@ -12,12 +12,15 @@ package Card
 		public function CardPool(isRepeat:Boolean = true) 
 		{
 			this._is_repeat = isRepeat;
-			this._pool = new Array();
+			this.pool = new Array();
 		}
 		
 		private var _is_repeat:Boolean;
 		
-		private var _pool:Array;
+		/**
+		 * 卡池的数组格式数据源
+		 */
+		public var pool:Array;
 		
 		/**
 		 * 向卡池中添加卡片
@@ -25,7 +28,7 @@ package Card
 		 */
 		public function add(card:CardBase):void
 		{
-			this._pool.push(card);
+			this.pool.push(card);
 		}
 		
 		/**
@@ -34,11 +37,11 @@ package Card
 		 */
 		public function random():CardBase
 		{
-			if (this._pool.length == 0)
+			if (this.pool.length == 0)
 				return null;
 			
-			var i:int = Math.floor(Math.random() * (this._pool.length as Number));
-			return this._pool[i];
+			var i:int = Math.floor(Math.random() * (this.pool.length as Number));
+			return this.pool[i];
 		}
 		
 		/**
@@ -46,10 +49,10 @@ package Card
 		 */
 		public function pop():CardBase
 		{
-			if (this._pool.length == 0)
+			if (this.pool.length == 0)
 				return null;
 			
-			return this._pool.pop();
+			return this.pool.pop();
 		}
 		
 	}

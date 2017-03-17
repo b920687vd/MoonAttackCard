@@ -2,8 +2,9 @@ package
 {
 	import Anime.CardPolt;
 	import Card.Character;
-	import Event.PlayerEvent;
+	import ExEvent.PlayerEvent;
 	import flash.events.EventDispatcher;
+	import Data.DeckReader;
 	/**
 	 * 游戏管理器
 	 * @author OMaster
@@ -21,7 +22,12 @@ package
 		
 		public var event_cube:EventDispatcher;
 		
-		private var _player_list:Array;
+		public var first_turn_player_index:int;
+		public var curr_turn_player_index:int;
+		
+		public var turn_conter:int;
+		
+		private var _player_list:Vector.<PlayerMgr>;
 		
 		private var _model_card_polt:CardPolt;
 		
@@ -32,6 +38,7 @@ package
 		{
 			_InitGame();
 			//进入先攻方回合
+			turn_conter = 0;
 			_EnterTurn();
 		}
 		
@@ -63,15 +70,25 @@ package
 		 */
 		private function _LoadDeck():void
 		{
+			var player_1_deck:String = "";
+			var player_2_deck:String = "";
 			
+			(_player_list[0] as PlayerMgr).deck = DeckReader.read(player_1_deck);
+			(_player_list[1] as PlayerMgr).deck = DeckReader.read(player_2_deck);
 		}
 		
 		/**
 		 * 决定先攻权
 		 */
-		private function _FirstCache():void
+		private function _FirstCache():int
 		{
+			var math_num:Number = Math.random();
+			if (math_num > 0.5)
+				first_turn_player_index = 0;
+			else
+				first_turn_player_index = 1;
 			
+			return first_turn_player_index;
 		}
 		
 		/**
@@ -79,7 +96,8 @@ package
 		 */
 		private function _InitHand():void
 		{
-			
+			ActionMgr.Draw(5, _player_list[0]);
+			ActionMgr.Draw(5, _player_list[1]);
 		}
 		
 		/**
@@ -95,7 +113,10 @@ package
 		 */
 		private function _EnterTurn(index:int = null):void
 		{
-			
+			if (curr_turn_player_index == null)
+				curr_turn_player_index = first_turn_player_index;
+			if (index == null)
+				index = curr_turn_player_index;
 		}
 		
 		/**

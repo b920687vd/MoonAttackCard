@@ -3,7 +3,7 @@
 	
 	import Card.CardBase;
 	import Card.Character;
-	import Event.PlayerEvent;
+	import ExEvent.PlayerEvent;
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
