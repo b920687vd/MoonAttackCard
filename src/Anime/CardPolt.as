@@ -1,9 +1,10 @@
 ﻿package Anime
 {
 	
-	import Card.CardBase;
-	import Card.Character;
+	import MoonA.Card.CardBase;
+	import MoonA.Card.Character;
 	import ExEvent.PlayerEvent;
+	import MoonA.GameMgr;
 	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -256,7 +257,7 @@
 		private function _ChooseAim(e:MouseEvent):void
 		{
 			var event_choose_aim:PlayerEvent = new PlayerEvent(PlayerEvent.CHOOSE_AIM_OVER, char_dict[e.target]);
-			GameMgr.One.event_cube.dispatchEvent(event_choose_aim);
+			MoonA.GameMgr.One.event_cube.dispatchEvent(event_choose_aim);
 		}
 		
 		/**

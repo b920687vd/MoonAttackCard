@@ -1,6 +1,6 @@
-package
+package MoonA
 {
-	import Card.Character;
+	import MoonA.Card.Character;
 	/**
 	 * 队伍管理器
 	 * 管理双方的角色队伍

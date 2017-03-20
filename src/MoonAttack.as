@@ -1,9 +1,10 @@
 package
 {
-	import Card.Character;
+	import MoonA.Card.Character;
+	import Console;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
-	import Card.CardBase;
+	import MoonA.Card.CardBase;
 	import Anime.AnimeModel;
 	
 	public class MoonAttack extends Sprite

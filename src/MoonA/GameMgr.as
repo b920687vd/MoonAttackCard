@@ -1,8 +1,9 @@
-package 
+package MoonA 
 {
 	import Anime.CardPolt;
-	import Card.Character;
+	import MoonA.Card.Character;
 	import ExEvent.PlayerEvent;
+	import MoonA.ActionMgr;
 	import flash.events.EventDispatcher;
 	import Data.DeckReader;
 	/**
@@ -27,7 +28,7 @@ package
 		
 		public var turn_conter:int;
 		
-		private var _player_list:Vector.<PlayerMgr>;
+		private var _player_list:Vector.<MoonA.PlayerMgr>;
 		
 		private var _model_card_polt:CardPolt;
 		
@@ -48,8 +49,8 @@ package
 		private function _InitGame():void
 		{
 			_player_list = new Array();
-			var _player_1:PlayerMgr = new PlayerMgr();
-			var _player_2:PlayerMgr = new PlayerMgr();
+			var _player_1:MoonA.PlayerMgr = new MoonA.PlayerMgr();
+			var _player_2:MoonA.PlayerMgr = new MoonA.PlayerMgr();
 			_player_1.enemy = _player_2;
 			_player_list.push(_player_1, _player_2);
 			
@@ -73,8 +74,8 @@ package
 			var player_1_deck:String = "";
 			var player_2_deck:String = "";
 			
-			(_player_list[0] as PlayerMgr).deck = DeckReader.read(player_1_deck);
-			(_player_list[1] as PlayerMgr).deck = DeckReader.read(player_2_deck);
+			(_player_list[0] as MoonA.PlayerMgr).deck = DeckReader.read(player_1_deck);
+			(_player_list[1] as MoonA.PlayerMgr).deck = DeckReader.read(player_2_deck);
 		}
 		
 		/**
@@ -96,8 +97,8 @@ package
 		 */
 		private function _InitHand():void
 		{
-			ActionMgr.Draw(5, _player_list[0]);
-			ActionMgr.Draw(5, _player_list[1]);
+			MoonA.ActionMgr.Draw(5, _player_list[0]);
+			MoonA.ActionMgr.Draw(5, _player_list[1]);
 		}
 		
 		/**
@@ -144,7 +145,7 @@ package
 			for each(var char:Character in _player_list[0].party.list)
 			{
 				if (char.hp <= 0)
-					ActionMgr.Death(char);
+					MoonA.ActionMgr.Death(char);
 			}
 		}
 		
@@ -177,13 +178,13 @@ package
 		private function _ChooseAimEnd(e:PlayerEvent):void
 		{
 			this.event_cube.removeEventListener(PlayerEvent.CHOOSE_AIM_OVER, _ChooseAimEnd);
-			ActionMgr.setContext("effect_aim", e.param.aim);
+			MoonA.ActionMgr.setContext("effect_aim", e.param.aim);
 		}
 		
 		private function _ChooseHandEnd(e:PlayerEvent):void
 		{
 			this.event_cube.removeEventListener(PlayerEvent.CHOOSE_HAND_OVER, _ChooseHandEnd);
-			ActionMgr.setContext("hand_cost", e.param.hand);
+			MoonA.ActionMgr.setContext("hand_cost", e.param.hand);
 		}
 	}
 

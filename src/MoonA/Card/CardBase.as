@@ -1,5 +1,7 @@
-package Card
+package MoonA.Card
 {
+	import MoonA.ActionMgr;
+	import Console;
 	import flash.utils.Dictionary;
 	
 	/**卡牌基类*/
@@ -19,7 +21,7 @@ package Card
 				{
 					for each(var action:Object in actionlist.list as Array)
 					{
-						this.addAction(actionlist.point,ActionLib.Action(action.name,action.param,actionlist.point));
+						this.addAction(actionlist.point,MoonA.ActionLib.Action(action.name,action.param,actionlist.point));
 					}
 				}
 			}
@@ -101,7 +103,7 @@ package Card
 		public function doAction(point:String):void
 		{
 			if(this._action_list[point])
-				ActionMgr.PushAction(this._action_list[point]);
+				MoonA.ActionMgr.PushAction(this._action_list[point]);
 		}
 		
 		/**为某一卡牌添加动作*/
@@ -116,7 +118,7 @@ package Card
 		
 		public function Action_Play():void
 		{
-			ActionMgr.Play(this);
+			MoonA.ActionMgr.Play(this);
 		}
 		
 		/**检查该卡片是否属于某个分类*/

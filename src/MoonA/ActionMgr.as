@@ -1,9 +1,10 @@
-package
+package MoonA
 {
+	import Console;
 	import flash.events.EventDispatcher;
 	
-	import Card.CardBase;
-	import Card.Character;
+	import MoonA.Card.CardBase;
+	import MoonA.Card.Character;
 	
 	import ExEvent.ActionEvent;
 	

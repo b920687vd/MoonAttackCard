@@ -1,8 +1,9 @@
 package Data 
 {
-	import Card.CardBase;
-	import Card.CardPool;
+	import MoonA.Card.CardBase;
+	import MoonA.Card.CardPool;
 	import ExEvent.AsyncFileEvent;
+	import ResourceMgr;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.events.Event;

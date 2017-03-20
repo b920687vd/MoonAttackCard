@@ -1,7 +1,8 @@
-package
+package MoonA
 {
-	import Card.CardBase;
-	import Card.Character;
+	import Console;
+	import MoonA.Card.CardBase;
+	import MoonA.Card.Character;
 	public class ActionLib
 	{
 		public function ActionLib()

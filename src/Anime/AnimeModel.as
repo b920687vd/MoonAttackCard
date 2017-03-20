@@ -1,7 +1,7 @@
 ﻿package Anime{
 	
 	import flash.display.MovieClip;
-	import Card.CardBase;
+	import MoonA.Card.CardBase;
 	import flash.display.Loader;
 	import flash.net.URLRequest;
 	

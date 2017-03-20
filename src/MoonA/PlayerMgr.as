@@ -1,6 +1,7 @@
-package 
+package MoonA 
 {
-	import Card.CardPool;
+	import MoonA.Card.CardPool;
+	import MoonA.CharMgr;
 	/**
 	 * ...
 	 * @author OMaster
@@ -17,12 +18,12 @@ package
 		{
 			this._deck = new CardPool(true);
 			this._hand_card = new CardPool(true);
-			this._party = new CharMgr();
+			this._party = new MoonA.CharMgr();
 		}
 		
 		public var deck:CardPool;
 		public var hand_card:CardPool;
-		public var party:CharMgr;
+		public var party:MoonA.CharMgr;
 		public var grave:CardPool;
 		
 		private var _enemy:PlayerMgr;

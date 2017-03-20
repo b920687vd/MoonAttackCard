@@ -1,4 +1,4 @@
-package 
+package MoonA 
 {
 	/**
 	 * 棋盘管理器

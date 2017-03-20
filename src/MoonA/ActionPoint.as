@@ -1,4 +1,4 @@
-package
+package MoonA
 {
 	public class ActionPoint
 	{

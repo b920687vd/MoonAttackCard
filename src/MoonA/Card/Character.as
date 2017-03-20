@@ -1,4 +1,4 @@
-package Card
+package MoonA.Card
 {
 	/**角色卡牌*/
 	public class Character extends CardBase
