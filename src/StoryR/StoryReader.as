@@ -1,8 +1,11 @@
 package StoryR 
 {
 	import flash.display.MovieClip;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.events.Event;
 	/**
-	 * ...
+	 * 故事阅读器
 	 * @author ...
 	 */
 	public class StoryReader 
@@ -15,6 +18,21 @@ package StoryR
 		
 		public function load(bath:String):void
 		{
+			if (ResourceMgr.Map[bath]||ResourceMgr.Map["story_file"])
+			{
+				this._curr_story = ResourceMgr.Map[bath];
+				return;
+			}
+			var story_loader:URLLoader = new URLLoader();
+			var story_request:URLRequest = new URLRequest(bath);
+			story_loader.load(story_request);
+			story_loader.addEventListener(Event.COMPLETE,_StoryFileLoadComplete);
+		}
+		
+		private function _StoryFileLoadComplete(e:Event):void
+		{
+			var loaded_data:Object = JSON.parse(e.target.data);
+			ResourceMgr.Map["story_file"] = loaded_data;
 			
 		}
 		
